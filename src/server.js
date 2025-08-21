@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
+const path = require('path');
 require("dotenv").config();
 
 const connectDB = require("./config/database");
