@@ -19,7 +19,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL_LOCAL, process.env.FRONTEND_URL_DEPLOY],
+  origin: "*", 
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -33,7 +33,6 @@ app.use(compression());
 app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-
 
 app.use('/uploads', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -52,7 +51,7 @@ app.use(limiter);
 
 const io = socketIo(server, {
   cors: {
-    origin: process.env.SOCKET_CORS_ORIGIN.split(","),
+    origin: "*", 
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -87,5 +86,5 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Environment: ${process.env.NODE_ENV}`);
-  console.log(`🌐 CORS origins: ${process.env.SOCKET_CORS_ORIGIN}`);
+  console.log(`🌐 CORS: Allowing all origins`);
 });
