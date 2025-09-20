@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
-const path = require('path');
+const path = require("path");
 require("dotenv").config();
 
 const connectDB = require("./config/database");
@@ -20,40 +20,57 @@ const errorHandler = require("./middleware/errorHandler");
 const app = express();
 const server = http.createServer(app);
 
+const ALLOWED_ORIGINS = ["https://school-festival-platform.vercel.app"];
+
 const corsOptions = {
-  origin: "*", 
-  credentials: true,
+  origin(origin, callback) {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(compression());
 app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-app.use('/uploads', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Cache-Control', 'public, max-age=31536000');
-  next();
-}, express.static(path.join(__dirname, 'uploads')));
+app.use(
+  "/uploads",
+  (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.header("Cache-Control", "public, max-age=31536000");
+    next();
+  },
+  express.static(path.join(__dirname, "uploads"))
+);
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 1000, 
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
   message: "Too many requests from this IP, please try again later.",
 });
 app.use(limiter);
 
 const io = socketIo(server, {
   cors: {
-    origin: "*", 
+    origin: ALLOWED_ORIGINS,
     methods: ["GET", "POST"],
     credentials: true,
   },
