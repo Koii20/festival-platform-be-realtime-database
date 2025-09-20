@@ -76,7 +76,7 @@ router.post('/single', upload.single('file'), async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error uploading file:', error);
+    console.error('Error uploading file:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to upload file'
@@ -119,7 +119,7 @@ router.post('/multiple', upload.array('files', 5), async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error uploading files:', error);
+    console.error('Error uploading files:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to upload files'
@@ -150,7 +150,7 @@ router.get('/files/:filename', async (req, res) => {
     res.sendFile(filePath);
 
   } catch (error) {
-    console.error('❌ Error serving file:', error);
+    console.error('Error serving file:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to serve file'
@@ -187,7 +187,7 @@ router.delete('/files/:filename', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error deleting file:', error);
+    console.error('Error deleting file:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to delete file'
@@ -225,7 +225,7 @@ router.get('/info/:filename', async (req, res) => {
     }
 
   } catch (error) {
-    console.error('❌ Error getting file info:', error);
+    console.error('Error getting file info:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to get file info'

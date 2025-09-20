@@ -29,7 +29,7 @@ const authMiddleware = (socket, next) => {
     next();
 
   } catch (error) {
-    console.error('❌ Socket authentication failed:', error.message);
+    console.error('Socket authentication failed:', error.message);
     next(new Error('Invalid user authentication'));
   }
 };

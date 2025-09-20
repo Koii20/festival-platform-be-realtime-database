@@ -61,7 +61,7 @@ const socketHandler = (io) => {
           message: `Joined ${groupIds.length} groups`,
         });
       } catch (error) {
-        console.error("❌ Error joining groups:", error);
+        console.error("Error joining groups:", error);
         socket.emit("error", { message: "Failed to join groups" });
       }
     });
@@ -105,7 +105,7 @@ const socketHandler = (io) => {
           `💬 Message sent by ${socket.senderName} (${socket.userId}) to group ${groupId}`
         );
       } catch (error) {
-        console.error("❌ Error sending message:", error);
+        console.error("Error sending message:", error);
         socket.emit("error", { message: "Failed to send message" });
       }
     });
@@ -161,7 +161,7 @@ const socketHandler = (io) => {
           `📎 Message with attachment sent by ${socket.senderName} (${socket.userId}) to group ${groupId}`
         );
       } catch (error) {
-        console.error("❌ Error sending message with attachment:", error);
+        console.error("Error sending message with attachment:", error);
         socket.emit("error", {
           message: "Failed to send message with attachment",
         });
@@ -202,7 +202,7 @@ const socketHandler = (io) => {
           },
         });
       } catch (error) {
-        console.error("❌ Error getting message history:", error);
+        console.error("Error getting message history:", error);
         socket.emit("error", { message: "Failed to get message history" });
       }
     });
@@ -228,7 +228,7 @@ const socketHandler = (io) => {
     });
 
     socket.on("error", (error) => {
-      console.error("❌ Socket error:", error);
+      console.error("Socket error:", error);
     });
   });
 };

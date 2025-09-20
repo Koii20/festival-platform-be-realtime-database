@@ -13,6 +13,8 @@ const connectDB = require("./config/database");
 const socketHandler = require("./socket/socketHandler");
 const chatRoutes = require("./routes/chatRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const { setIO } = require("./socket/io");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -21,7 +23,7 @@ const server = http.createServer(app);
 const corsOptions = {
   origin: "*", 
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
@@ -58,11 +60,12 @@ const io = socketIo(server, {
   pingTimeout: 60000,
   pingInterval: 25000,
 });
-
+setIO(io);
 connectDB();
 
 app.use("/api/chat", chatRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({

@@ -41,7 +41,7 @@ router.get('/messages/:groupId', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error getting messages:', error);
+    console.error('Error getting messages:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to get messages'
@@ -88,7 +88,7 @@ router.get('/latest-messages', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error getting latest messages:', error);
+    console.error('Error getting latest messages:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to get latest messages'
@@ -142,7 +142,7 @@ router.post('/send', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error sending message:', error);
+    console.error('Error sending message:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to send message'
@@ -180,7 +180,7 @@ router.delete('/messages/:messageId', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error deleting message:', error);
+    console.error('Error deleting message:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to delete message'
@@ -252,7 +252,7 @@ router.get('/group-files', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error getting group files:', error);
+    console.error('Error getting group files:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to get group files'
@@ -307,7 +307,7 @@ router.get('/stats/:groupId', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error getting stats:', error);
+    console.error('Error getting stats:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to get statistics'
